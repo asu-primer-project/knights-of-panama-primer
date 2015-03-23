@@ -28,13 +28,7 @@
   			{video: false, audio: true},
  			 function success(localAudioStream) {
     			//call ractor
-    			var outgoing = audiopeer.call("ractorAudio", localAudioStream);
-    			audiopeer.on('call', function(incoming) {
-    				incoming.on('stream', function(stream) {
-  						// Do something with this audio stream
-  						playStream(stream);
-					});
-    			});
+    			
   			},
   			function error(err) {
     			console.log(err);
@@ -45,6 +39,12 @@
  		 var audio = $('<audio autoplay />').appendTo('body');
   			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
 	}
+	//in case student calls first
+	audiopeer.on('call', function(incoming) {
+  			incoming.on('stream', function(stream) {
+    			playStream(stream);
+  			});
+	});
 </script>
 <body>
 	<div style="width:480px; height:800px; background:#CCC; margin:0 auto;">

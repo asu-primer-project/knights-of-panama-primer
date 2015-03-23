@@ -31,18 +31,24 @@
  			 function success(localAudioStream) {
     			//call student
     			var outgoing = audiopeer.call("studentAudio", localAudioStream);
-    			audiopeer.on('call', function(incoming) {
-    				incoming.on('stream', function(stream) {
-  						// Do something with this audio stream
-  						playStream(stream);
-					});
-    			});
+    			//in student answering call
+    			outgoing.on('stream', function(stream) {
+  					playStream(stream);
+				});
+
   			},
   			function error(err) {
     			console.log(err);
   			}
 		);
 
+	//in case student calls first
+	audiopeer.on('call', function(incoming) {
+  			incoming.on('stream', function(stream) {
+    			playStream(stream);
+  			});
+	});
+	
 	function playStream(stream) {
  		 var audio = $('<audio autoplay />').appendTo('body');
   			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
