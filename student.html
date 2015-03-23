@@ -2,7 +2,8 @@
 <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
-	var peer = new Peer('student', {key: 'saebr57tmjnstt9'}); 
+	var peer = new Peer('student', {key: 'saebr57tmjnstt9'});
+	var audiopeer = new Peer('studentAudio', {key: '7uhibn55689tfbt9'});  
 	var conn = peer.connect('ractor');
 	conn.on('open', function(){
   		conn.send('Handshake: Hi, I am student ');
@@ -27,8 +28,8 @@
   			{video: false, audio: true},
  			 function success(localAudioStream) {
     			//call ractor
-    			var outgoing = peer.call("ractor", localAudioStream);
-    			peer.on('call', function(incoming) {
+    			var outgoing = audiopeer.call("ractorAudio", localAudioStream);
+    			audiopeer.on('call', function(incoming) {
     				incoming.on('stream', function(stream) {
   						// Do something with this audio stream
   						playStream(stream);
