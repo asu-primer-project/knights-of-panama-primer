@@ -1,0 +1,28 @@
+<html>
+<script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+<script type="text/javascript">
+	var peer = new Peer('ractor', {key: 'saebr57tmjnstt9'}); 
+	var conn = peer.connect('student');
+	conn.on('open', function(){
+  		conn.send('Handshake: Hi, I am ractor ');
+	});
+
+	peer.on('connection', function(conn) {
+  		conn.on('data', function(data){
+    	// Receive info from student
+    	console.log(data);
+  	});
+	});
+	var image = {
+		1:'http://bit.ly/1CJVOsI',
+		2:'http://bit.ly/1Cf1drk'
+	}
+	function sendPage(imageURL){
+		conn.send(image[imageURL]);
+	}
+</script>
+<body>
+	<a href="#" onclick="sendPage(1);">Send Page One</a></br>
+	<a href="#" onclick="sendPage(2);">Send Page Two</a>
+</body>
+</html>

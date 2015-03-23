@@ -1,0 +1,29 @@
+<html>
+<script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript">
+	var peer = new Peer('student', {key: 'saebr57tmjnstt9'}); 
+	var conn = peer.connect('ractor');
+	conn.on('open', function(){
+  		conn.send('Handshake: Hi, I am student ');
+	});
+
+	peer.on('connection', function(conn) {
+  		conn.on('data', function(data){
+    	console.log(data);
+    	if(data){
+    		if(data.indexOf("Handshake")>0){
+    			//Show green button on interface , received handshake from ractor
+    		}else{
+    			$("#page").attr("src", data);
+    		}
+    	}
+  	});
+});
+</script>
+<body>
+	<div style="width:480px; height:800px; background:#CCC; margin:0 auto;">
+		<img id="page"/>
+	</div>
+</body>
+</html>
