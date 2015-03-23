@@ -1,12 +1,13 @@
 <html>
 <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
 	var peer = new Peer('ractor', {key: 'saebr57tmjnstt9'}); 
 	var conn = peer.connect('student');
 	conn.on('open', function(){
   		conn.send('Handshake: Hi, I am ractor ');
 	});
-
+	//Data Channel
 	peer.on('connection', function(conn) {
   		conn.on('data', function(data){
     	// Receive info from student
@@ -19,6 +20,30 @@
 	}
 	function sendPage(imageURL){
 		conn.send(image[imageURL]);
+	};
+
+	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+	navigator.getUserMedia(
+  			{video: false, audio: true},
+ 			 function success(localAudioStream) {
+    			//call student
+    			var outgoing = peer.call("student", localAudioStream);
+    			peer.on('call', function(incoming) {
+    				incoming.on('stream', function(stream) {
+  					// Do something with this audio stream
+  					playStream(stream);
+					});
+    			});
+  			},
+  			function error(err) {
+    			console.log(err);
+  			}
+		);
+
+	function playStream(stream) {
+ 		 var audio = $('<audio autoplay />').appendTo('body');
+  			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
 	}
 </script>
 <body>

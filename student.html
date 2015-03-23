@@ -12,14 +12,38 @@
   		conn.on('data', function(data){
     	console.log(data);
     	if(data){
-    		if(data.indexOf("Handshake")>0){
+    		if(data.indexOf("Handshake")>=0){
     			//Show green button on interface , received handshake from ractor
     		}else{
     			$("#page").attr("src", data);
     		}
     	}
   	});
-});
+	});
+
+	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+	navigator.getUserMedia(
+  			{video: false, audio: true},
+ 			 function success(localAudioStream) {
+    			//call ractor
+    			var outgoing = peer.call("ractor", localAudioStream);
+    			peer.on('call', function(incoming) {
+    				incoming.on('stream', function(stream) {
+  						// Do something with this audio stream
+  						playStream(stream);
+					});
+    			});
+  			},
+  			function error(err) {
+    			console.log(err);
+  			}
+		);
+
+	function playStream(stream) {
+ 		 var audio = $('<audio autoplay />').appendTo('body');
+  			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
+	}
 </script>
 <body>
 	<div style="width:480px; height:800px; background:#CCC; margin:0 auto;">
