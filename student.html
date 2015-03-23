@@ -27,24 +27,30 @@
 	navigator.getUserMedia(
   			{video: false, audio: true},
  			 function success(localAudioStream) {
-    			//call ractor
-    			
+    			//call student
+    			var outgoing = audiopeer.call("ractorAudio", localAudioStream);
+    			//in student answering call
+    			outgoing.on('stream', function(stream) {
+  					playStream(stream);
+				});
+
   			},
   			function error(err) {
     			console.log(err);
   			}
 		);
 
-	function playStream(stream) {
- 		 var audio = $('<audio autoplay />').appendTo('body');
-  			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
-	}
 	//in case student calls first
 	audiopeer.on('call', function(incoming) {
   			incoming.on('stream', function(stream) {
     			playStream(stream);
   			});
 	});
+	
+	function playStream(stream) {
+ 		 var audio = $('<audio autoplay />').appendTo('body');
+  			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
+	}
 </script>
 <body>
 	<div style="width:480px; height:800px; background:#CCC; margin:0 auto;">
