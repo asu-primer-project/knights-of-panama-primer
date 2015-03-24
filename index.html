@@ -2,8 +2,8 @@
 <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
-	var peer = new Peer('ractor', {key: 'saebr57tmjnstt9'}); 
-	var audiopeer = new Peer('ractorAudio', {key: '7uhibn55689tfbt9'}); 
+	var peer = new Peer('ractor', {key: 'keby6smyozloko6r'}); 
+	var audiopeer = new Peer('ractorAudio', {key: 'ml7h7rngh36xn7b9'}); 
 	var conn = peer.connect('student');
 	conn.on('open', function(){
   		conn.send('Handshake: Hi, I am ractor ');
@@ -28,7 +28,7 @@
 
 	navigator.getUserMedia(
   			{video: false, audio: true},
- 			 function success(localAudioStream) {
+ 			 function(localAudioStream) {
     			//call student
     			var outgoing = audiopeer.call("studentAudio", localAudioStream);
     			//in student answering call
@@ -43,12 +43,13 @@
 		);
 
 	//in case student calls first
-	audiopeer.on('call', function(incoming) {
+	/*
+    audiopeer.on('call', function(incoming) {
   			incoming.on('stream', function(stream) {
     			playStream(stream);
   			});
 	});
-	
+	*/
 	function playStream(stream) {
  		 var audio = $('<audio autoplay />').appendTo('body');
   			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
