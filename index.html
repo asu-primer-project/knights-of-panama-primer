@@ -1,32 +1,35 @@
 <html>
-<script src="http://cdn.peerjs.com/0.3/peer.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/javascript">
-	var peer = new Peer('ractor', {key: 'keby6smyozloko6r'}); 
-	var audiopeer = new Peer('ractorAudio', {key: 'ml7h7rngh36xn7b9'}); 
-	var conn = peer.connect('student');
-	conn.on('open', function(){
-  		conn.send('Handshake: Hi, I am ractor ');
-	});
-	//Data Channel
-	peer.on('connection', function(conn) {
-  		conn.on('data', function(data){
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+         <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+        <link rel="stylesheet" href="style.css"/>
+        <script type="text/javascript">
+        $(document).ready(function(){
+           var peer = new Peer('ractor', {key: 'keby6smyozloko6r'}); 
+	       var audiopeer = new Peer('ractorAudio', {key: 'ml7h7rngh36xn7b9'}); 
+           var conn = peer.connect('student');
+	       conn.on('open', function(){
+  		        conn.send('Handshake: Hi, I am ractor ');
+	       });
+	   //Data Channel
+	       peer.on('connection', function(conn) {
+  		    conn.on('data', function(data){
     	// Receive info from student
-    	console.log(data);
-  	});
-	});
+    	   console.log(data);
+            });
+	       });
 	var image = {
-		1:'http://bit.ly/1CJVOsI',
+		//List out all images here and send urls accordingly
+        1:'http://bit.ly/1CJVOsI',
 		2:'http://bit.ly/1Cf1drk'
 	}
-	function sendPage(imageURL){
-		conn.send(image[imageURL]);
-	};
 
-  
-	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-	navigator.getUserMedia(
+        
+        $('#call_button').click( function(){
+            $('#calling').show();
+            navigator.getUserMedia(
   			{video: false, audio: true},
  			 function(localAudioStream) {
     			//call student
@@ -41,6 +44,18 @@
     			console.log(err);
   			}
 		);
+            
+        });
+        $('.misc').click(function(){
+            var img=$(this).attr('src');
+            $('#second_strip').html('<img src="'+img+'" width="400px" height="600px" />');
+            console.log(img);
+            conn.send(img);            
+        });
+    })
+        </script>
+        <script type="text/javascript">
+	     	
 
 	//in case student calls first
 	/*
@@ -54,10 +69,39 @@
  		 var audio = $('<audio autoplay />').appendTo('body');
   			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
 	}
-	
 </script>
-<body>
-	<a href="#" onclick="sendPage(1);">Send Page One</a></br>
-	<a href="#" onclick="sendPage(2);">Send Page Two</a>
-</body>
+    </head>
+    <body>
+        <div id="first_strip">
+            <div id="call_box">
+                <img id="call_butt" src="call.png" width="30px" height="30px" style="cursor: pointer;"/>
+                <input type ="button" id="call_button" />
+                <span id="calling" style="display :none; border: 1px solid black; hidden" > call connecting....</span>
+                <span id="connected" style="display :none;"> call connected....</span>
+            </div>
+            <div id="images">
+            <img class="misc" id="misc1" src="http://bit.ly/1CJVOsI" width="300px" height="100px" />
+            <img class="misc" id="misc2" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
+            <img class="misc" id="misc3" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
+       </div>
+            
+            </div>
+        </div>
+        <div id="second_strip">
+         </div>
+        <div id="third_strip">
+        story pages: <br />
+         <div id="images">
+            <img class="misc" id="misc1" src="http://bit.ly/1CJVOsI" width="300px" height="100px" />
+            <img class="misc" id="misc2" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
+            <img class="misc" id="misc3" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
+            
+       </div>
+        
+        </div>
+        
+    </body>
+
+
+
 </html>
