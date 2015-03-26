@@ -36,6 +36,8 @@
     			var outgoing = audiopeer.call("studentAudio", localAudioStream);
     			//in student answering call
     			outgoing.on('stream', function(stream) {
+		              $('#calling').hide();
+                      $('#connected').show();
   					playStream(stream);
 				});
 
@@ -74,15 +76,13 @@
     <body>
         <div id="first_strip">
             <div id="call_box">
-                <img id="call_butt" src="call.png" width="30px" height="30px" style="cursor: pointer;"/>
-                <input type ="button" id="call_button" />
+                <img id="call_butt" src="call.png" width="30px" height="30px" style="cursor: pointer;" />
+                <input type ="button" id="call_button" value="Call"/>
                 <span id="calling" style="display :none; border: 1px solid black; hidden" > call connecting....</span>
                 <span id="connected" style="display :none;"> call connected....</span>
             </div>
             <div id="images">
-            <img class="misc" id="misc1" src="http://bit.ly/1CJVOsI" width="300px" height="100px" />
-            <img class="misc" id="misc2" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
-            <img class="misc" id="misc3" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
+            
        </div>
             
             </div>
@@ -92,10 +92,11 @@
         <div id="third_strip">
         story pages: <br />
          <div id="images">
-            <img class="misc" id="misc1" src="http://bit.ly/1CJVOsI" width="300px" height="100px" />
-            <img class="misc" id="misc2" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
-            <img class="misc" id="misc3" src="http://bit.ly/1Cf1drk" width="300px" height="100px" />
-            
+            <img class="misc" id="misc1" src="http://i.imgur.com/s1WtC6T.png" width="300px" height="100px" />
+            <img class="misc" id="misc2" src="http://i.imgur.com/iR0HbUX.png" width="300px" height="100px" />
+            <img class="misc" id="misc3" src="http://i.imgur.com/uOwdQEy.png" width="300px" height="100px" />
+            <img class="misc" id="misc3" src="http://i.imgur.com/3yLm8da.png" width="300px" height="100px" />
+            <img class="misc" id="misc3" src="http://i.imgur.com/gEH27hP.png" width="300px" height="100px" />
        </div>
         
         </div>
