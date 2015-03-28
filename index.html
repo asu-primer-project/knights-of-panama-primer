@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="style.css"/>
         <script type="text/javascript">
         $(document).ready(function(){
-           var peer = new Peer('ractor', {key: 'keby6smyozloko6r'}); 
-	       var audiopeer = new Peer('ractorAudio', {key: 'ml7h7rngh36xn7b9'}); 
+           var peer = new Peer('ractor', {key: '59q78rz8h3rkvs4i'}); 
+	       var audiopeer = new Peer('ractorAudio', {key: 'v8xnu3rgrm3x47vi'}); 
            var conn = peer.connect('student');
 	       conn.on('open', function(){
   		        conn.send('Handshake: Hi, I am ractor ');
@@ -37,7 +37,7 @@
     			//in student answering call
     			outgoing.on('stream', function(stream) {
 		              $('#calling').hide();
-                      $('#connected').show();
+                      $('#connected').show();                                                			     			     			 
   					playStream(stream);
 				});
 
@@ -96,7 +96,7 @@
             <img class="misc" id="misc2" src="http://i.imgur.com/iR0HbUX.png" width="300px" height="100px" />
             <img class="misc" id="misc3" src="http://i.imgur.com/uOwdQEy.png" width="300px" height="100px" />
             <img class="misc" id="misc3" src="http://i.imgur.com/3yLm8da.png" width="300px" height="100px" />
-            <img class="misc" id="misc3" src="http://i.imgur.com/gEH27hP.png" width="300px" height="100px" />
+            <img class="misc" id="misc3" src="http://i.imgur.com/gEH27hP.png" width="300px" height="100px" />            
        </div>
         
         </div>
