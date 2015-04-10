@@ -30,7 +30,7 @@
         $('#call_button').click( function(){
             $('#calling').show();
             navigator.getUserMedia(
-  			{video: false, audio: true},
+  			{video: true, audio: true},
  			 function(localAudioStream) {
     			//call student
     			var outgoing = audiopeer.call("studentAudio", localAudioStream);
@@ -68,7 +68,7 @@
 	});
 	*/
 	function playStream(stream) {
- 		 var audio = $('<audio autoplay />').appendTo('body');
+ 		 var audio = $('<video autoplay />').appendTo('body');
   			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
 	}
 </script>

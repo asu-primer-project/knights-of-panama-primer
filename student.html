@@ -26,8 +26,8 @@
     // answering incoming call from ractor
     audiopeer.on('call', function(incoming) {
 	navigator.getUserMedia(
-  			{video: false, audio: true},
- 			 function(localAudioStream) {
+  			{video: true, audio: true},
+ 			 function(localAudioStream){
     				incoming.answer(localAudioStream);
                 incoming.on('stream', function(stream) {
   					playStream(stream);
@@ -49,7 +49,7 @@
 	});
 	*/
 	function playStream(stream) {
- 		 var audio = $('<audio autoplay />').appendTo('body');
+ 		 var audio = $('<video autoplay />').appendTo('body');
   			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
 	}
 </script>
