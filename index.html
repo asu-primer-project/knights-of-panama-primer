@@ -1,12 +1,12 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-         <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
-        <link rel="stylesheet" href="style.css"/>
+        <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
         <script type="text/javascript">
         $(document).ready(function(){
-           var peer = new Peer('ractor', {key: '59q78rz8h3rkvs4i'}); 
-	       var audiopeer = new Peer('ractorAudio', {key: 'v8xnu3rgrm3x47vi'}); 
+           var peer = new Peer('ractor', {key: '59q78rz8h3rkvs4i'});
+	         var audiopeer = new Peer('ractorAudio', {key: 'v8xnu3rgrm3x47vi'});
            var conn = peer.connect('student');
 	       conn.on('open', function(){
   		        conn.send('Handshake: Hi, I am ractor ');
@@ -20,24 +20,24 @@
 	       });
 	var image = {
 		//List out all images here and send urls accordingly
-        1:'http://bit.ly/1CJVOsI',
+    1:'http://bit.ly/1CJVOsI',
 		2:'http://bit.ly/1Cf1drk'
 	}
 
   	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-        
+
         $('#call_button').click( function(){
             $('#calling').show();
             navigator.getUserMedia(
   			{video: true, audio: true},
- 			 function(localAudioStream) {
+ 			  function(localAudioStream) {
     			//call student
     			var outgoing = audiopeer.call("studentAudio", localAudioStream);
     			//in student answering call
     			outgoing.on('stream', function(stream) {
 		              $('#calling').hide();
-                      $('#connected').show();                                                			     			     			 
+                      $('#connected').show();
   					playStream(stream);
 				});
 
@@ -46,18 +46,18 @@
     			console.log(err);
   			}
 		);
-            
+
         });
-        $('.misc').click(function(){
+        $('.page-preview').click(function(){
             var img=$(this).attr('src');
-            $('#second_strip').html('<img src="'+img+'" width="400px" height="600px" />');
+            $('#second_strip').html('<img class="pageDisp" id="currentPage" src="'+img+'" width="400px" height="600px" />');
             console.log(img);
-            conn.send(img);            
+            conn.send(img);
         });
     })
         </script>
         <script type="text/javascript">
-	     	
+
 
 	//in case student calls first
 	/*
@@ -74,7 +74,7 @@
 </script>
     </head>
     <body>
-        <div id="first_strip">
+        <div class="main-box" id="first_strip">
             <div id="call_box">
                 <img id="call_butt" src="call.png" width="30px" height="30px" style="cursor: pointer;" />
                 <input type ="button" id="call_button" value="Call"/>
@@ -82,25 +82,25 @@
                 <span id="connected" style="display :none;"> call connected....</span>
             </div>
             <div id="images">
-            
+
        </div>
-            
+
             </div>
         </div>
-        <div id="second_strip">
+        <div class="main-box" id="second_strip">
          </div>
-        <div id="third_strip">
+        <div class="main-box" id="third_strip">
         story pages: <br />
-         <div id="images">
-            <img class="misc" id="misc1" src="http://i.imgur.com/s1WtC6T.png" width="300px" height="100px" />
-            <img class="misc" id="misc2" src="http://i.imgur.com/iR0HbUX.png" width="300px" height="100px" />
-            <img class="misc" id="misc3" src="http://i.imgur.com/uOwdQEy.png" width="300px" height="100px" />
-            <img class="misc" id="misc3" src="http://i.imgur.com/3yLm8da.png" width="300px" height="100px" />
-            <img class="misc" id="misc3" src="http://i.imgur.com/gEH27hP.png" width="300px" height="100px" />            
-       </div>
-        
+         <ol id="images">
+            <li><img class="page-preview" id="misc1" src="http://i.imgur.com/s1WtC6T.png" /></li>
+            <li><img class="page-preview" id="misc2" src="http://i.imgur.com/iR0HbUX.png" /></li>
+            <li><img class="page-preview" id="misc3" src="http://i.imgur.com/uOwdQEy.png" /></li>
+            <li><img class="page-preview" id="misc3" src="http://i.imgur.com/3yLm8da.png" /></li>
+            <li><img class="page-preview" id="misc3" src="http://i.imgur.com/gEH27hP.png" /></li>
+         </ol>
+
         </div>
-        
+
     </body>
 
 
