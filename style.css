@@ -1,8 +1,19 @@
 #first_strip{
+    width: 30%;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 50px;
+}
+#video_box{
+    width: 100px;
+    height: 100px;
+}
+#randomimages{
     height: 100%;
     width: 30%;
     float: left;
     margin-right: 10px;
+    
 }
 #call_box{
     height: 10%;
@@ -31,4 +42,11 @@
     margin-right: 20px;
     cursor: pointer;
     margin-top: 40px;
+}
+.story_container{
+    width: 200px;
+    height: 200px;
+    float: left;
+    margin-right: 20px;
+    border: 2px solid black;
 }
