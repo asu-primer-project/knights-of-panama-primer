@@ -4,8 +4,10 @@
         <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
         <link rel="stylesheet" href="style.css"/>
         <script type="text/javascript">
-            var peer = new Peer('ractor', {key: 'v84hx5vmmjk8olxr'}); 
-            var audiopeer = new Peer('ractorAudio', {key: 's59zwz9nrhxpf1or'}); 
+            //var peer = new Peer('ractor', {key: 'v84hx5vmmjk8olxr'}); 
+            // we are running a peerjs server on localhost using port 9001
+            var peer = new Peer('ractor', {host: '173.45.253.59', port: 9000});
+            var audiopeer = new Peer('ractorAudio', {host: '173.45.253.59', port: 9000}); 
             var conn = peer.connect('student');
             //once connection is open send a handshake just to make sure student is loaded and connected
             conn.on('open', function(){
