@@ -2,107 +2,116 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" href="style.css"/>
         <script type="text/javascript">
-        $(document).ready(function(){
-           var peer = new Peer('ractor', {key: '59q78rz8h3rkvs4i'});
-	         var audiopeer = new Peer('ractorAudio', {key: 'v8xnu3rgrm3x47vi'});
-           var conn = peer.connect('student');
-	       conn.on('open', function(){
-  		        conn.send('Handshake: Hi, I am ractor ');
-	       });
-	   //Data Channel
-	       peer.on('connection', function(conn) {
-  		    conn.on('data', function(data){
-    	// Receive info from student
-    	   console.log(data);
+            //var peer = new Peer('ractor', {key: 'v84hx5vmmjk8olxr'}); 
+            // we are running a peerjs server on localhost using port 9001
+            var peer = new Peer('ractor', {host: '173.45.253.59', port: 9000});
+            var audiopeer = new Peer('ractorAudio', {host: '173.45.253.59', port: 9000}); 
+            var conn = peer.connect('student');
+            //once connection is open send a handshake just to make sure student is loaded and connected
+            conn.on('open', function(){
+  		            conn.send('Handshake: Hi, I am ractor ');
+                });
+            
+            //we have to make sure doc is loaded (including story preview images) before we call or send data
+            $(document).ready(function(){
+                //make sure to get all vendor prefixes, navigator is an interface 
+       	        navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+                //once user tries to make a call
+                $('#call_button').click( function(){
+                    $('#calling').show();
+                    //we use getUserMedia to access the video or audio from the system
+                    navigator.getUserMedia(
+                        {video: true, audio: true},
+                        function(localAudioStream) {
+    			         //call student
+                            var outgoing = audiopeer.call("studentAudio", localAudioStream);
+                        //in student answering call
+ 			                outgoing.on('stream', function(stream) {
+                                $('#calling').hide();
+                                $('#connected').show();                                                			     			     			 
+                                playStream(stream);
+				            });
+  			           },
+                        function error(err) {
+                            console.log(err);
+  			           }
+                    );
+                });
+                
+                //This class of images on clicked have to be sent into central display division as well as added to connection stream
+                $('.misc').click(function(){
+                    var img=$(this).attr('src');
+                    $('#second_strip').html('<img src="'+img+'" width="400px" height="600px" />');
+                    conn.send(img);            
+                });
+                //This class of divisions on double click should load the stories dynamically from story-jsons inside stories folder
+                $('.story_container').dblclick(function(){
+                    var sto=$(this).attr("stoid");
+                    console.log("story is",sto);
+                    $.getJSON("stories/"+sto+".json", function(data) {
+                        console.log("data is", data);
+                        var randoms= ""; var stories ="";    
+                        $.each( data, function( key, val ) {
+                            key =parseInt(key);
+                            if(key%2==0)
+                                randoms = randoms +  "<img id='" + key + "' src='"+val+"' width='300' height= '100'  class='disc' onclick=\"run('"+val+"');\"/>" ;
+                            else
+                                stories = stories +  "<img id='" + key + "' src='"+val+"' width='300' height= '100' onclick=\"run('"+val+"');\"/>" ;
+                        });
+                        //we push the dynamically added images html to randomimages and third strip divs
+                        $('#randomimages').html(randoms);
+                        $('#third_strip').html(stories);
+            
+                    });
+                });
+
             });
-	       });
-	var image = {
-		//List out all images here and send urls accordingly
-    1:'http://bit.ly/1CJVOsI',
-		2:'http://bit.ly/1Cf1drk'
-	}
-
-  	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-
-
-        $('#call_button').click( function(){
-            $('#calling').show();
-            navigator.getUserMedia(
-  			{video: true, audio: true},
- 			  function(localAudioStream) {
-    			//call student
-    			var outgoing = audiopeer.call("studentAudio", localAudioStream);
-    			//in student answering call
-    			outgoing.on('stream', function(stream) {
-		              $('#calling').hide();
-                      $('#connected').show();
-  					playStream(stream);
-				});
-
-  			},
-  			function error(err) {
-    			console.log(err);
-  			}
-		);
-
-        });
-        $('.page-preview').click(function(){
-            var img=$(this).attr('src');
-            $('#second_strip').html('<img class="pageDisp" id="currentPage" src="'+img+'" width="400px" height="600px" />');
-            console.log(img);
-            conn.send(img);
-        });
-    })
+            //funtion used to send dynamically loaded story content to the student
+            function run(img1){
+                $('#second_strip').html('<img src="'+img1+'" width="400px" height="600px" />');
+                conn.send(img1);
+            }
+            //function used to play audio/video streams , here we append the video to videobox division
+            function playStream(stream) {
+                var video = $('<video autoplay />').appendTo('#video_box');
+                video[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
+            }
+        
         </script>
-        <script type="text/javascript">
-
-
-	//in case student calls first
-	/*
-    audiopeer.on('call', function(incoming) {
-  			incoming.on('stream', function(stream) {
-    			playStream(stream);
-  			});
-	});
-	*/
-	function playStream(stream) {
- 		 var audio = $('<video autoplay />').appendTo('body');
-  			audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
-	}
-</script>
     </head>
     <body>
-        <div class="main-box" id="first_strip">
+        <div id="first_strip" style="margin-left: 500px; margin-right: 500px">
+            <!-- This div holds the call button-->
             <div id="call_box">
                 <img id="call_butt" src="call.png" width="30px" height="30px" style="cursor: pointer;" />
                 <input type ="button" id="call_button" value="Call"/>
                 <span id="calling" style="display :none; border: 1px solid black; hidden" > call connecting....</span>
                 <span id="connected" style="display :none;"> call connected....</span>
             </div>
-            <div id="images">
-
-       </div>
-
+            <!-- this division streams video from student-->
+            <div id="video_box">
             </div>
+            
         </div>
-        <div class="main-box" id="second_strip">
-         </div>
-        <div class="main-box" id="third_strip">
-        story pages: <br />
-         <ol id="images">
-            <li><img class="page-preview" id="misc1" src="http://i.imgur.com/s1WtC6T.png" /></li>
-            <li><img class="page-preview" id="misc2" src="http://i.imgur.com/iR0HbUX.png" /></li>
-            <li><img class="page-preview" id="misc3" src="http://i.imgur.com/uOwdQEy.png" /></li>
-            <li><img class="page-preview" id="misc3" src="http://i.imgur.com/3yLm8da.png" /></li>
-            <li><img class="page-preview" id="misc3" src="http://i.imgur.com/gEH27hP.png" /></li>
-         </ol>
-
+        
+        <div id="story_list" style="margin-left: 50px; border: 1px solid black;">
+            <!-- list story previews in each of the division here, make sure inside images have the class misc-->
+            <!-- use the stoid attribute to give the story a numerical id and make sure the same id is used to store the json inside the stories division-->
+            <div class="story_container" stoid="1" ><img class="misc" src="http://i.imgur.com/s1WtC6T.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="2" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="3" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="4" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="5" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
         </div>
-
+        <!-- randomimages div holds the miscallenous images from the story-->
+        <div id="randomimages"></div>
+        <!-- second strip div holds the image currently being shown on the student side-->
+        <div id="second_strip"></div>
+        <!-- third strip div holds the story pages-->
+        <div id="third_strip"></div>
+        
     </body>
-
-
 
 </html>
