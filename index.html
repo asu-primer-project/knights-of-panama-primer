@@ -4,19 +4,19 @@
         <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
         <link rel="stylesheet" href="style.css"/>
         <script type="text/javascript">
-            //var peer = new Peer('ractor', {key: 'v84hx5vmmjk8olxr'}); 
+            //var peer = new Peer('ractor', {key: 'v84hx5vmmjk8olxr'});
             // we are running a peerjs server on localhost using port 9001
             var peer = new Peer('ractor', {host: '173.45.253.59', port: 9000});
-            var audiopeer = new Peer('ractorAudio', {host: '173.45.253.59', port: 9000}); 
+            var audiopeer = new Peer('ractorAudio', {host: '173.45.253.59', port: 9000});
             var conn = peer.connect('student');
             //once connection is open send a handshake just to make sure student is loaded and connected
             conn.on('open', function(){
   		            conn.send('Handshake: Hi, I am ractor ');
                 });
-            
+
             //we have to make sure doc is loaded (including story preview images) before we call or send data
             $(document).ready(function(){
-                //make sure to get all vendor prefixes, navigator is an interface 
+                //make sure to get all vendor prefixes, navigator is an interface
        	        navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
                 //once user tries to make a call
                 $('#call_button').click( function(){
@@ -30,7 +30,7 @@
                         //in student answering call
  			                outgoing.on('stream', function(stream) {
                                 $('#calling').hide();
-                                $('#connected').show();                                                			     			     			 
+                                $('#connected').show();
                                 playStream(stream);
 				            });
   			           },
@@ -39,12 +39,12 @@
   			           }
                     );
                 });
-                
+
                 //This class of images on clicked have to be sent into central display division as well as added to connection stream
                 $('.misc').click(function(){
                     var img=$(this).attr('src');
-                    $('#second_strip').html('<img src="'+img+'" width="400px" height="600px" />');
-                    conn.send(img);            
+                    $('#second_strip').html('<img src="'+img+'" id="story-page" width="400px" height="600px" />');
+                    conn.send(img);
                 });
                 //This class of divisions on double click should load the stories dynamically from story-jsons inside stories folder
                 $('.story_container').dblclick(function(){
@@ -52,7 +52,7 @@
                     console.log("story is",sto);
                     $.getJSON("stories/"+sto+".json", function(data) {
                         console.log("data is", data);
-                        var randoms= ""; var stories ="";    
+                        var randoms= ""; var stories ="";
                         $.each( data, function( key, val ) {
                             key =parseInt(key);
                             if(key%2==0)
@@ -63,14 +63,14 @@
                         //we push the dynamically added images html to randomimages and third strip divs
                         $('#randomimages').html(randoms);
                         $('#third_strip').html(stories);
-            
+
                     });
                 });
 
             });
             //funtion used to send dynamically loaded story content to the student
             function run(img1){
-                $('#second_strip').html('<img src="'+img1+'" width="400px" height="600px" />');
+                $('#second_strip').html('<img src="'+img1+'" id="story-page" width="400px" height="600px" />');
                 conn.send(img1);
             }
             //function used to play audio/video streams , here we append the video to videobox division
@@ -78,11 +78,12 @@
                 var video = $('<video autoplay />').appendTo('#video_box');
                 video[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
             }
-        
+
         </script>
     </head>
     <body>
-        <div id="first_strip" style="margin-left: 500px; margin-right: 500px">
+      <ul>
+        <li id="first_strip" style="margin-left: 500px; margin-right: 500px">
             <!-- This div holds the call button-->
             <div id="call_box">
                 <img id="call_butt" src="call.png" width="30px" height="30px" style="cursor: pointer;" />
@@ -93,10 +94,10 @@
             <!-- this division streams video from student-->
             <div id="video_box">
             </div>
-            
-        </div>
-        
-        <div id="story_list" style="margin-left: 50px; border: 1px solid black;">
+
+        </li>
+
+        <li id="story_list" style="display: block; margin-left: auto; margin-bottom: auto; border: 1px solid black;">
             <!-- list story previews in each of the division here, make sure inside images have the class misc-->
             <!-- use the stoid attribute to give the story a numerical id and make sure the same id is used to store the json inside the stories division-->
             <div class="story_container" stoid="1" ><img class="misc" src="http://i.imgur.com/s1WtC6T.png" width="200px" height="100px" /></div>
@@ -104,14 +105,17 @@
             <div class="story_container" stoid="3" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
             <div class="story_container" stoid="4" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
             <div class="story_container" stoid="5" ><img class="misc" src="http://i.imgur.com/iR0HbUX.png" width="200px" height="100px" /></div>
-        </div>
+        </li>
+      </ul>
         <!-- randomimages div holds the miscallenous images from the story-->
-        <div id="randomimages"></div>
+      <div id=main_holder>
+        <div class="main_block" id="randomimages"></div>
         <!-- second strip div holds the image currently being shown on the student side-->
-        <div id="second_strip"></div>
+        <div class="main_block" id="second_strip"></div>
         <!-- third strip div holds the story pages-->
-        <div id="third_strip"></div>
-        
+        <div class="main_block" id="third_strip"></div>
+      </div>
+
     </body>
 
 </html>
