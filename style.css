@@ -1,3 +1,15 @@
+.main_block{
+  border: 5px solid;
+  border-color: #00A2E8;
+  border-radius: 15px;
+}
+#story_list{
+
+}
+
+#main_holder{
+  margin-top: 10px;
+}
 #first_strip{
     width: 30%;
     float: left;
@@ -13,7 +25,7 @@
     width: 30%;
     float: left;
     margin-right: 10px;
-    
+
 }
 #call_box{
     height: 10%;
@@ -26,14 +38,19 @@
     height: 800px;
     width: 480px;
     float: left;
-    border: 3px solid #ccc;
     margin-right: 10px;
 }
+#story-page{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #third_strip{
     height: 100%;
     width: 30%;
     float: left;
-    
+    overflow-y: scroll;
 }
 #images{
     margin-top: 30px;
