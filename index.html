@@ -49,6 +49,7 @@
                 
                 //This class of divisions on double click should load the stories dynamically from story-jsons inside stories folder
                 $('.story_container').dblclick(function(){
+                    $('#third_strip1').html('');
                     var sto=$(this).attr("stoid");
                     console.log("story is",sto);
                     $.getJSON("stories/"+sto+".json", function(data) {
@@ -57,9 +58,9 @@
                         $.each( data, function( key, val ) {
                             key =parseInt(key);
                             if(key%2==0)
-                                randoms = randoms +  "<img id='" + key + "' src='"+val+"' width='300' height= '100' style='margin-bottom: 20px; padding: 20px;' onclick=\"run('"+val+"','ran','"+key+"','"+sto+"');\"/>" ;
+                                randoms = randoms +  "<img id='" + key + "' src='"+val+"' width='300' height= '100' style='margin-bottom: 20px; padding: 20px; border: 2px solid #ccc; margin-left: 80px;' onclick=\"run('"+val+"','ran','"+key+"','"+sto+"');\"/>" ;
                             else
-                                stories = stories +  "<img id='" + key + "' src='"+val+"' width='300' height= '100' style='margin-bottom: 20px; padding: 20px;' onclick=\"run('"+val+"','sto','"+key+"','"+sto+"');\"/>" ;
+                                stories = stories +  "<img id='" + key + "' src='"+val+"' width='300' height= '100' style='margin-bottom: 20px; padding: 20px; border: 2px solid #ccc; margin-left: 80px;' onclick=\"run('"+val+"','sto','"+key+"','"+sto+"');\"/>" ;
                         });
                         //we push the dynamically added images html to randomimages and third strip divs
                         $('#randomimages').html(randoms);
@@ -71,12 +72,13 @@
             });
             //funtion used to send dynamically loaded story content to the student
             function run(img1,type,skey,sval){
+                
                 skey=parseInt(skey);
                 skey=skey+2;
                 if(type=="sto"){
                     $.getJSON("stories/"+sval+".json", function(data) {
                     if(data[skey])
-                        $('#third_strip1').html('<img src="'+data[skey]+'" id="story-page" width="200px" height="200px" />');
+                        $('#third_strip1').html('<img src="'+data[skey]+'" id="story-page" width="400px" height="600px" />');
                     else
                         $('#third_strip1').html('');        
                     })
@@ -86,7 +88,7 @@
             }
             //function used to play audio/video streams , here we append the video to videobox division
             function playStream(stream) {
-                var video = $('<video autoplay width="300" height="200"/>').appendTo('#video_box');
+                var video = $('<video autoplay width="300" height="200" background-color="#ccc"/>').appendTo('#video_box');
                 video[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
             }
 
@@ -94,27 +96,29 @@
     </head>
     <body>
       
-        <div id="first_strip" style="margin-left: 50px; margin-right: 50px">
+        <div id="first_strip">
             <!-- This div holds the call button-->
             <div id="call_box">
-                <img id="call_butt" src="Home_page.png" class="call_button" width="260px" height="100px" style="cursor: pointer;" />
+                <img id="call_butt" src="Home_page1.png" class="call_button" width="260px" height="100px" style="cursor: pointer;" />
+                <br />
                 <span id="calling" style="display :none; border: 1px solid black; hidden" > call connecting....</span>
                 <span id="connected" style="display :none;"> call connected....</span>
             </div>
             <!-- this division streams video from student-->
             <div id="video_box">
             </div>
-            <div id="clear" style="clear: both;"></div>
-        </div>
+            
         
-        <div id="story_list" style="border: 1px solid cyan;">
+        
+        <div id="story_list">
             <!-- list story previews in each of the division here, make sure inside images have the class misc-->
             <!-- use the stoid attribute to give the story a numerical id and make sure the same id is used to store the json inside the stories division-->
-            <div class="story_container" stoid="1" >Story 1<img class="misc" src="http://i.imgur.com/EEipV3G.png" width="200px" height="100px" /></div>
-            <div class="story_container" stoid="2" >Story 2<img class="misc" src="http://i.imgur.com/6NeNP8q.png" width="200px" height="100px" /></div>
-            <div class="story_container" stoid="3" >Story 3<img class="misc" src="http://i.imgur.com/qOd4MGt.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="1" ><center>Story 1</center><img class="misc" src="http://i.imgur.com/EEipV3G.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="2" ><center>Story 2</center><img class="misc" src="http://i.imgur.com/6NeNP8q.png" width="200px" height="100px" /></div>
+            <div class="story_container" stoid="3" ><center>Story 3</center><img class="misc" src="http://i.imgur.com/qOd4MGt.png" width="200px" height="100px" /></div>
         </div>
-      
+      </div>
+      <div id="clear" style="clear: both;"></div>
         <!-- randomimages div holds the miscallenous images from the story-->
       <div id=main_holder>
         <div class="main_block" id="randomimages"></div>

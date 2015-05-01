@@ -1,67 +1,90 @@
+body{
+    background-color: #bde6f0;
+}
 .main_block{
   border: 5px solid;
   border-color: #00A2E8;
   border-radius: 15px;
 }
 #story_list{
-    margin-top: 20px;
-    height: 250px;
-    padding: 20px;
+    background-color: #fff;
+    margin-left: 100px;
+    height: 220px;
+    padding: 5px; 
+    float: left
 }
-
 #main_holder{
   margin-top: 10px;
 }
 #first_strip{
+    background-color: #fff;
     margin-top: 30px;
+    border: 5px solid;
+    border-color: #00A2E8;
+    border-radius: 15px;
+    height: 220px;
+    padding: 20px;
 }
 
 #randomimages{
-    height: 100%;
+    background-color: #fff;
+    height: 800px;
     width: 30%;
     float: left;
-    margin-right: 10px;
-
+    margin-right: 40px;
+    padding: 20px;
 }
 #call_box{
+    background-color: #fff;
     float: left;
     height: 10%;
-    padding : 20px;
-    margin-left: 200px;
+    padding: 10px;
+    border: 5px solid #ccc;
+    border-radius: 15px;
+    width: 300px;
+    height: 180px;    
 }
-
 #video_box{
     width: 300px;
     height: 200px;
-    border: 2px solid aqua;
-    margin-left: 20px;
+    border: 5px solid #ccc;
+    border-radius: 15px;
+    margin-left: 100px;
     float: left;
+    background-color: #ccc;
 }
 #second_strip{
+    background-color: #fff;
     height: 800px;
     width: 480px;
     float: left;
-    margin-right: 10px;
+    margin-right: 40px;
     padding: 20px;
 }
 #story-page{
+  background-color: #fff;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 #third_strip1{
+    background-color: #fff;
     height:250px;
     border: 5px solid #ccc;
     border-radius: 15px;
     padding: 20px;
+    overflow-y: scroll;
 }
 #third_strip{
+    background-color: #fff;
     padding: 10px;
     height: 800px;
     width: 30%;
     float: left;
+    padding: 20px;   
 }
 #third_strip2{
+    background-color: #fff;
     height: 420px;
     border-radius: 15px;
     padding: 20px;
@@ -80,6 +103,8 @@
     float: left;
     width: 200px;
     height: 200px;
-    margin-right: 20px;
-    border: 2px solid black;
+    margin-right: 50px;
+    border: 5px solid;
+    border-color: #ccc;
+    border-radius: 15px;
 }
