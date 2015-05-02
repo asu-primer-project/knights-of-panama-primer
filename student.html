@@ -4,8 +4,8 @@
     <script type="text/javascript">
         //var peer = new Peer('student', {key: 'v84hx5vmmjk8olxr'});
         // we are running a peerjs server on localhost using port 9001
-        var peer = new Peer('student', {host: '173.45.253.59', port: 9001});
-        var audiopeer = new Peer('studentAudio', {host: '173.45.253.59', port: 9001});  
+        var peer = new Peer('student', {host: '173.45.253.59', port: 9000});
+        var audiopeer = new Peer('studentAudio', {host: '173.45.253.59', port: 9000});  
         var conn = peer.connect('ractor');
         //on connection open send a handshake to ractor
         conn.on('open', function(){
